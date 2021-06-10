@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PunctualityConfig(AppConfig):
+class SchedulesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'punctuality'
+    name = 'schedules'
