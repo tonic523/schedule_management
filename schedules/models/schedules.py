@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models.users import User
+from users.models import User
 
 class Schedule(models.Model):
     user       = models.ForeignKey(User, on_delete=models.CASCADE)

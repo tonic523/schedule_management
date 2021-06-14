@@ -1,7 +1,7 @@
 from django.db import models
 
-from users.models.users import User
-from .drafts            import Draft
+from users.models import User
+from .drafts      import Draft
 
 class DraftApprover(models.Model):
     approver = models.ForeignKey(User, on_delete=models.CASCADE)

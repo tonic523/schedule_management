@@ -1,11 +1,10 @@
 from django.db import models
 
-from users.models.users import User
-from .drafts_approers   import DraftApprover
+from .drafts_approers import DraftApprover
 
 class Draft(models.Model):
-    drafter     = models.ForeignKey(User, on_delete=models.CASCADE)
-    approvers   = models.ManyToManyField(User, through=DraftApprover, related_name='drafts')
+    drafter     = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    approvers   = models.ManyToManyField('users.User', through=DraftApprover, related_name='drafts')
     type        = models.CharField(max_length=64)
     description = models.TextField()
     draft_at    = models.DateField()
