@@ -1,9 +1,7 @@
 from django.db import models
 
-from users.models import User
-
 class DraftApprover(models.Model):
-    approver = models.ForeignKey(User, on_delete=models.CASCADE)
+    approver = models.ForeignKey('users.User', on_delete=models.CASCADE)
     draft    = models.ForeignKey('drafts.Draft', on_delete=models.CASCADE)
     status   = models.BooleanField(default=False)
 
