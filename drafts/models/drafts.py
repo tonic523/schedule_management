@@ -3,6 +3,13 @@ from django.db import models
 from .drafts_approers import DraftApprover
 
 class Draft(models.Model):
+    TYPE = (
+        ('연차', 1),
+        ('반차', 0.5),
+        ('공가', 0),
+        ('경조', 0)
+    )
+
     drafter     = models.ForeignKey('users.User', on_delete=models.CASCADE)
     approvers   = models.ManyToManyField('users.User', through=DraftApprover, related_name='drafts')
     type        = models.CharField(max_length=64)
@@ -15,3 +22,4 @@ class Draft(models.Model):
 
     class Meta:
         db_table = 'drafts'
+        app_label = 'drafts'

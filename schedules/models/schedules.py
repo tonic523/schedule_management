@@ -10,3 +10,4 @@ class Schedule(models.Model):
 
     class Meta:
         db_table = 'schedules'
+        app_label = 'schedules'

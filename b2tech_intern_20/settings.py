@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'users',
     'schedules',
-    'permissions'
+    'permissions',
+    'drafts'
 ]
 
 AUTH_USER_MODEL = 'users.User'

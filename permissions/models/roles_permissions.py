@@ -9,3 +9,4 @@ class RolePermission(models.Model):
 
     class Meta:
         db_table = 'permissions_by_roles'
+        app_label = 'permissions'
