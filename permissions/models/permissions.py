@@ -5,4 +5,4 @@ class Permission(models.Model):
     method = models.CharField(max_length=128)
 
     class Meta:
-        db_table = 'rights'
+        db_table = 'permissions'
