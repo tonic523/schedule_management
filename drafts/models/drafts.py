@@ -3,7 +3,6 @@ from django.db import models
 from users.models.users import User
 from .drafts_approers   import DraftApprover
 
-
 class Draft(models.Model):
     drafter     = models.ForeignKey(User, on_delete=models.CASCADE)
     approvers   = models.ManyToManyField(User, through=DraftApprover, related_name='drafts')

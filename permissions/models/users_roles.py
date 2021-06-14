@@ -1,8 +1,8 @@
-from django.db import models
+from django.db                 import models
 from django.db.models.deletion import CASCADE
 
 from users.models.users import User
-from .roles import Role
+from .roles             import Role
 
 class UserRole(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)
