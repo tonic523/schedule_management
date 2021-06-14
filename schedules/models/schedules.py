@@ -1,9 +1,12 @@
 from django.db import models
 
-from users.models import User
-
 class Schedule(models.Model):
-    user       = models.ForeignKey(User, on_delete=models.CASCADE)
+    TYPE = (
+        ('유급휴가', 8),
+        ('무급휴가', 0),
+        ('정상근무', 8),
+    )
+    user       = models.ForeignKey('users.User', on_delete=models.CASCADE)
     type       = models.CharField(max_length=64)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

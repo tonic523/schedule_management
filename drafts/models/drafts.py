@@ -1,7 +1,5 @@
 from django.db import models
 
-from .drafts_approers import DraftApprover
-
 class Draft(models.Model):
     TYPE = (
         ('연차', 1),
@@ -11,8 +9,7 @@ class Draft(models.Model):
     )
 
     drafter     = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    approvers   = models.ManyToManyField('users.User', through=DraftApprover, related_name='drafts')
-    type        = models.CharField(max_length=64)
+    type        = models.CharField(max_length=64, choices=TYPE)
     description = models.TextField()
     draft_at    = models.DateField()
     start_at    = models.DateField(default=None, null=True)
