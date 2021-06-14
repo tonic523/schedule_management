@@ -27,3 +27,6 @@ class User(models.Model):
     salary = models.IntegerField()
     get_in_time = models.TimeField()
     get_off_time = models.TimeField()
+
+    class Meta:
+        db_table = 'users'
