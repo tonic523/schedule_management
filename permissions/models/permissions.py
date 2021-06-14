@@ -6,3 +6,4 @@ class Permission(models.Model):
 
     class Meta:
         db_table = 'permissions'
+        app_label = 'permissions'
