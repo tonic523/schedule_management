@@ -33,7 +33,8 @@ INSTALLED_APPS = [
 
     'rest_framework.authtoken',
     'users',
-    'schedules'
+    'schedules',
+    'roles'
 ]
 
 AUTH_USER_MODEL = 'users.User'
