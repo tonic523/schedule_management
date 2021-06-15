@@ -30,7 +30,7 @@ class User(AbstractBaseUser):
     
     employee_number     = models.CharField(max_length=64)
     date_of_join        = models.DateField(max_length=64)
-    annual_vacation     = models.ForeignKey('users.AnnualLeave', on_delete=models.CASCADE)
+    annual_leave     = models.ForeignKey('users.AnnualLeave', on_delete=models.CASCADE)
     registration_number = models.CharField(max_length=64)
     phone_number        = models.CharField(max_length=64)
     email               = models.CharField(max_length=128, unique=True)
