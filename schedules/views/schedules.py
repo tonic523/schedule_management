@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, F
 
 # from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -28,13 +28,22 @@ def scheduleList(request):
         if employee_number:
             q.add(Q(user__employee_number = employee_number), q.AND)
 
-        schedules = Schedule.objects.filter(q)
+        schedules = Schedule.objects.filter(q).select_related('user').prefetch_related('user__userrole_set')
         
         return Response({'schedules':[
             {
             'employee_number':schedule.user.employee_number,
             'name':schedule.user.name,
+            'role':[userrole.role.name for userrole in schedule.user.userrole_set.all()],
+            'get_in_time':schedule.get_in_time,
+            'get_off_time':schedule.get_off_time,
+            'work_type':schedule.work_type,
             'created_at' : schedule.created_at,
-            'updated_at' : schedule.updated_at
-            }for schedule in schedules]
+            'updated_at' : schedule.updated_at,
+            
+            }for schedule in schedules.annotate(
+                get_in_time = F('user__get_in_time'),
+                get_off_time = F('user__get_off_time')
+
+                )]
         }, status=status.HTTP_200_OK)
