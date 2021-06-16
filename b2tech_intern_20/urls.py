@@ -1,5 +1,6 @@
 from django.urls import path, include
 
 urlpatterns = [
-    path('users', include('users.urls.users_schedules'))
+    path('schedules', include('schedules.urls')),
+    path('users', include('users.urls'))
 ]
