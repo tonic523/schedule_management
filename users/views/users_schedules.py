@@ -39,7 +39,7 @@ def record_commute(request, employee_number):
         except Schedule.DoesNotExist:
             today_work = None
 
-        if today_work is not None:
+        if today_work is None:
             Schedule.objects.create(
                 user = employee,
                 created_at = today)
