@@ -10,6 +10,8 @@ class Schedule(models.Model):
     work_type  = models.CharField(max_length=64, choices=TYPE, default='정상근무')
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    get_in_time = models.TimeField(null=True, default=None)
+    get_off_time = models.TimeField(null=True, default=None)
 
     class Meta:
         db_table = 'schedules'
