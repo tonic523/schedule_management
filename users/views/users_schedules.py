@@ -42,7 +42,10 @@ def record_commute(request, employee_number):
         if today_work is None:
             Schedule.objects.create(
                 user = employee,
-                created_at = today)
+                created_at = today,
+                get_in_time = employee.get_in_time,
+                get_off_time = employee.get_off_time
+                )
         else:
             today_work.updated_at = today
             today_work.save()

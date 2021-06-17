@@ -40,10 +40,12 @@ def scheduleList(request):
             'work_type':schedule.work_type,
             'created_at' : schedule.created_at,
             'updated_at' : schedule.updated_at,
-            
+            'late_time' : schedule.late_time // 60,
+            'leaveing_time' : schedule.leaveing_time // 60,
+            'work_time' : schedule.work_time // 60
             }for schedule in schedules.annotate(
-                get_in_time = F('user__get_in_time'),
-                get_off_time = F('user__get_off_time')
-
-                )]
+                late_time = F('created_at__time') - F('get_in_time'),
+                leaveing_time = F('updated_at__time') - F('get_off_time'),
+                work_time = F('updated_at__time') - F('created_at__time')
+            )]
         }, status=status.HTTP_200_OK)
