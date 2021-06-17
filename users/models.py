@@ -39,6 +39,7 @@ class User(AbstractBaseUser):
     salary              = models.IntegerField(default=DEFAULT_SALARY)
     get_in_time         = models.TimeField(default='09:00')
     get_off_time        = models.TimeField(default='18:00')
+    remaining_annual_leave = models.IntegerField(default=0, null=True)
 
     class Meta:
         db_table = 'users'
