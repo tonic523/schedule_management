@@ -25,7 +25,7 @@ def decrypt(information, key):
     information = base64.b64decode(information)
     iv = information[:16]
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return cipher.decrypt(information[16:]).decode('utf-8')
+    return unpad(cipher.decrypt(information[16:]).decode('utf-8'))
 
 def encryption(user_input):
     return encrypt(user_input, my_settings.KEY)
