@@ -41,6 +41,13 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+class AnnualLeave(models.Model):
+    annual = models.IntegerField()
+    leave_count = models.IntegerField()
+
+    class Meta:
+        db_table = 'annual_leaves'
+
 class User(AbstractBaseUser):
     WORK_TYPE = (
         ('정규', '정규 근무'),
@@ -49,9 +56,9 @@ class User(AbstractBaseUser):
 
     DEFAULT_SALARY = 1822480
     
-    employee_number     = models.CharField(max_length=64)
+    employee_number     = models.CharField(max_length=64, unique=True)
     date_of_join        = models.DateField(max_length=64)
-    annual_leave     = models.ForeignKey('users.AnnualLeave', on_delete=models.CASCADE)
+    annual_leave        = models.ForeignKey(AnnualLeave, on_delete=models.CASCADE)
     registration_number = models.CharField(max_length=64)
     phone_number        = models.CharField(max_length=64)
     email               = models.CharField(max_length=128, unique=True)
@@ -68,12 +75,5 @@ class User(AbstractBaseUser):
     
     objects = CustomUserManager()
 
-    USERNAME_FIELD  = 'email'
+    USERNAME_FIELD  = 'employee_number'
     REQUIRED_FIELDS = ['name']
-
-class AnnualLeave(models.Model):
-    annual = models.IntegerField()
-    leave_count = models.IntegerField()
-
-    class Meta:
-        db_table = 'annual_leaves'
