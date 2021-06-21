@@ -19,27 +19,20 @@ class UserLoginSerializer(serializers.Serializer):
 
     def validate(self, data):
         employee_number = data.get("employee_number", None)
-        password = data.get("password", None)
-
-        try:
-            user = User.objects.get(employee_number=employee_number)
-            email = user.email
-            user_email = authenticate(email=email, password=password) # email 말고 emplyee_number와 password 로 하는 방법?
-            
-            if user_email is None:
-                raise serializers.ValidationError(
-                    {'message':'비밀번호를 확인해주세요'}
-                )
-            
-            payload = jwt_payload_handler(user_email)
-            jwt_token = jwt_encode_handler(payload)
-
-            return {
-            'employee_number': user.employee_number,
-            'token': jwt_token
-            }
-
-        except User.DoesNotExist:
+        password = data.get("password", None)  
+        user = authenticate(employee_number=employee_number, password=password) # email 말고 emplyee_number와 password 로 하는 방법?
+        
+        if user is None:
             raise serializers.ValidationError(
-                {'message':'사원번호를 확인해주세요'}
+                {'message':'사원번호 혹은 비밀번호를 확인해주세요'}
             )
+        
+        payload = jwt_payload_handler(user)
+        jwt_token = jwt_encode_handler(payload)
+
+        return {
+        'employee_number': user.employee_number,
+        'token': jwt_token
+        }
+
+     
