@@ -19,7 +19,7 @@ def today_schedule(request):
             today_schedule = Schedule.objects.get(user=employee, created_at__date = today_date)
             created_at = today_schedule.created_at
             updated_at = today_schedule.updated_at
-        except:
+        except Schedule.DoesNotExist:
             created_at = None
             updated_at = None
 

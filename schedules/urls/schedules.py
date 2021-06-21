@@ -1,7 +1,7 @@
 from django.urls import path
 
-from schedules.views import scheduleList
+from schedules.views import schedules
 
 urlpatterns = [
-    path('', scheduleList)
+    path('', schedules.as_view())
 ]

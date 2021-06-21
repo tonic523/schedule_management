@@ -1,2 +1,2 @@
-from .schedules import scheduleList
+from .schedules import schedules
 from .today_schedule import today_schedule
