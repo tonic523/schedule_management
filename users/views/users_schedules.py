@@ -29,11 +29,10 @@ from schedules.models.schedules import Schedule
 @api_view(['POST'])
 @permission_classes([])
 def record_commute(request, employee_number):
-    FORMAT_FOR_RECORD = 'Y-m-d H:i:s'
     try:
         employee = User.objects.get(employee_number = employee_number)
-        today = dateformat.format(timezone.now(), FORMAT_FOR_RECORD)
-        today_date = today.split(' ')[0]
+        today = timezone.now()
+        today_date = today.strftime('%Y-%m-%d')
         try:
             today_work = Schedule.objects.get(user = employee, created_at__date = today_date)
         except Schedule.DoesNotExist:
