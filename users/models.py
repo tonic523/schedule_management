@@ -9,25 +9,9 @@ from users.utils import encrypt_utils
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, registration_number, date_of_join, annual=0, **kwargs):
-        # phone_number,  name
-        REQUIRED_FIELD = (
-            'phone_number', 'name', 'work_type', 'salary', 'get_in_time', 'get_off_time', 'remaining_annual_leave'
-        )
-
-        if not email:
-            raise ValueError("이메일 입력해주세요")
-
-        if not registration_number:
-            raise ValueError("주민등록번호 입력해주세요")
-
-        if not date_of_join:
-            raise ValueError("입사일 입력해주세요")
-
-        for key in kwargs.keys():
-            if key not in REQUIRED_FIELD:
-                raise KeyError("key 값을 확인해주세요")
 
         annual_leave = AnnualLeave.objects.get(annual = annual)
+        
         user = self.model(
             email = self.normalize_email(email),
             annual_leave = annual_leave,
@@ -76,4 +60,4 @@ class User(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD  = 'employee_number'
-    REQUIRED_FIELDS = ['name']
+    REQUIRED_FIELDS = ['email', 'phone_number', 'name', 'work_type', 'salary', 'get_in_time', 'get_off_time', 'remaining_annual_leave']
