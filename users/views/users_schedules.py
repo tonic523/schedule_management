@@ -4,31 +4,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 from users.models import User
 from schedules.models.schedules import Schedule
 
-# class UserSchedule(APIView):
-#     permission_classes = []
-
-#     def get(self, request):
-#         employee_number = request.GET.get('employee_number', None)
-#         employee = User.objects.filter(employee_number=employee_number)
-#         if employee.exists():
-#             employee
-
-
-#     def post(self, request, id):
-#         employee = User.objects.get(id=id)
-#             if employee.exists():
-#                 Schedule.objects.create(
-#                     user = employee
-#                 )
-#                 return Response({'message': 'test'})
-
 class UserSchedule(APIView):
 
-    permission_classes = []
+    permission_classes = [AllowAny]
 
     def post(self, request, employee_number):
         try:
