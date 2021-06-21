@@ -12,9 +12,7 @@ from users.models import User
 @permission_classes([])
 def today_schedule(request):
     employee_number = request.GET.get('employee_number', None)
-    today = timezone.now()
-    today_date = str(today).split(' ')[0]
-
+    today_date = timezone.now().strftime('%Y-%m-%d')
     try:
         employee = User.objects.get(employee_number=employee_number)
         try:
