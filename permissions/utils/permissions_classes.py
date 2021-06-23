@@ -12,7 +12,6 @@ from my_settings import SECRET
 class IsLogin(BasePermission):
     @validate_login
     def has_permission(self, request, view):
-        print("")
         return request.user.is_authenticated
 
 class IsAdmin(BasePermission):
