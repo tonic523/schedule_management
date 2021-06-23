@@ -21,3 +21,7 @@ def get_worktime(time):
         return None
     else:
         return time.seconds if time.seconds > 0 else None
+
+def format_time(time):
+    FORMAT = '%H:%M'
+    return time.strftime(FORMAT) if time else None

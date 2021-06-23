@@ -5,13 +5,16 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from schedules.models.schedules import Schedule
-from schedules.utils.time import work_status, get_worktime, second_to_time
-from users.utils.roles import get_roles, IsAdmin
+from schedules.utils.time import work_status, get_worktime, second_to_time, format_time
+from users.utils.roles import get_roles
+from permissions.utils.permissions_classes import IsAdmin
+from users.utils.token import is_admin, validate_login
 
 class schedules(APIView):
-    authentication_classes = []#authentication.TokenAuthentication
-    permission_classes = [IsAdmin]#permissions.IsAdminUser
-
+    # authentication_classes = []#authentication.TokenAuthentication
+    permission_classes = []#permissions.IsAdminUser
+    @validate_login
+    @is_admin
     def get(self, request):
         employee_number = request.GET.get('employee_number', None)
         date = request.GET.get('date', None)
@@ -54,7 +57,3 @@ class schedules(APIView):
             }for schedule in schedules]
 
         return Response({'schedules': results}, status=status.HTTP_200_OK)
-
-def format_time(time):
-    FORMAT = '%H:%M'
-    return time.strftime(FORMAT) if time else None

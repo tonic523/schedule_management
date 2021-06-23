@@ -8,6 +8,9 @@ from rest_framework import serializers
 from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
 
 from my_settings import SECRET
+from users.utils.roles import get_permissions
+
+
 User = get_user_model()
 
 def jwt_payload_handler(user):
@@ -34,15 +37,20 @@ class UserLoginSerializer(serializers.Serializer):
         payload = {
             'employee_number':user.employee_number,
             'name':user.name,
-            'exp' :timezone.now() + timezone.timedelta(minutes=20)
+            'permissions':get_permissions(user.employee_number),
+            'iat' :timezone.now().timestamp()
         }
-        jwt_token = jwt.encode(
+        
+        access_token = jwt.encode(
                 payload,
                 SECRET,
-                'HS256'
+                algorithm="HS256"
             ).decode('utf-8')
+
+        user.refresh_token = access_token
+        user.save()
 
         return {
         'employee_number': user.employee_number,
-        'token': jwt_token
+        'token': access_token
         }    
