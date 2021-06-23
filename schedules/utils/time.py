@@ -3,8 +3,8 @@ def second_to_time(second):
     if second is None:
         return None
     else:
-        hour, miniute = second // 3600, second % 3600
-        miniute = miniute // 60
+        hour, miniute = str(second // 3600).zfill(2), second % 3600
+        miniute = str(miniute // 60).zfill(2)
         return f'{hour}:{miniute}'
 
 def work_status(time, status):
