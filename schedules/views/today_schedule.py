@@ -25,8 +25,8 @@ def today_schedule(request):
 
         return Response({
             'name':employee.name,
-            'created_at':created_at,
-            'updated_at':updated_at,
+            'work_in':created_at,
+            'work_out':updated_at,
         })
 
     except User.DoesNotExist:
