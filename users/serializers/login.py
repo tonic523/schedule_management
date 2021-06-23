@@ -1,9 +1,13 @@
+import jwt
+
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 from rest_framework import serializers
 from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
 
+from my_settings import SECRET
 User = get_user_model()
 
 def jwt_payload_handler(user):
@@ -27,12 +31,18 @@ class UserLoginSerializer(serializers.Serializer):
                 {'message':'사원번호 혹은 비밀번호를 확인해주세요'}
             )
         
-        payload = jwt_payload_handler(user)
-        jwt_token = jwt_encode_handler(payload)
+        payload = {
+            'employee_number':user.employee_number,
+            'name':user.name,
+            'exp' :timezone.now() + timezone.timedelta(minutes=20)
+        }
+        jwt_token = jwt.encode(
+                payload,
+                SECRET,
+                'HS256'
+            ).decode('utf-8')
 
         return {
         'employee_number': user.employee_number,
         'token': jwt_token
-        }
-
-     
+        }    

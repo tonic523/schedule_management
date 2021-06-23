@@ -6,12 +6,11 @@ from rest_framework.views import APIView
 
 from schedules.models.schedules import Schedule
 from schedules.utils.time import work_status, get_worktime, second_to_time
-from users.utils.roles import get_roles
+from users.utils.roles import get_roles, IsAdmin
 
 class schedules(APIView):
-
     authentication_classes = []#authentication.TokenAuthentication
-    permission_classes = []#permissions.IsAdminUser
+    permission_classes = [IsAdmin]#permissions.IsAdminUser
 
     def get(self, request):
         employee_number = request.GET.get('employee_number', None)
