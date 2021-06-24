@@ -1,3 +1,6 @@
+from schedules.models.schedules import Schedule
+from django.utils import timezone
+
 def second_to_time(second):
     print(second)
     if second is None:
@@ -25,3 +28,13 @@ def get_worktime(time):
 def format_time(time):
     FORMAT = '%H:%M'
     return time.strftime(FORMAT) if time else None
+
+def get_today_commute(employee):
+    try:
+        today_schedule = Schedule.objects.get(user=employee, created_at__date = timezone.now().strftime('%Y-%m-%d'))
+        created_at = today_schedule.created_at
+        updated_at = today_schedule.updated_at
+    except Schedule.DoesNotExist:
+        created_at = None
+        updated_at = None
+    return created_at, updated_at

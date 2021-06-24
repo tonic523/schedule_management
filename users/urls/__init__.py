@@ -1,5 +1,6 @@
 from .users_schedules import urlpatterns as users_schedules_urls
 from .login import urlpatterns as login_urls
+from .my_page import urlpatterns as my_page_urls
 app_name = 'schedules'
 
 urlpatterns = [
@@ -8,3 +9,4 @@ urlpatterns = [
 
 urlpatterns += users_schedules_urls
 urlpatterns += login_urls
+urlpatterns += my_page_urls

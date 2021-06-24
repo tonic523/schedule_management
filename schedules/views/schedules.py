@@ -7,12 +7,12 @@ from rest_framework.views import APIView
 from schedules.models.schedules import Schedule
 from schedules.utils.time import work_status, get_worktime, second_to_time, format_time
 from users.utils.roles import get_roles
-from permissions.utils.permissions_classes import IsAdmin
 from users.utils.token import is_admin, validate_login
+from schedules.utils.date import format_str_date
 
 class schedules(APIView):
-    # authentication_classes = []#authentication.TokenAuthentication
-    permission_classes = []#permissions.IsAdminUser
+    permission_classes = []
+
     @validate_login
     @is_admin
     def get(self, request):
@@ -21,9 +21,7 @@ class schedules(APIView):
 
         query = Q()
         if date:
-            year, month, day = date.split('-')
-            month, day = month.zfill(2), day.zfill(2) 
-            query.add(Q(created_at__date=f'{year}-{month}-{day}'), query.AND)
+            query.add(Q(created_at__date=format_str_date(date)), query.AND)
         
         if employee_number:
             query.add(Q(user__employee_number = employee_number), query.AND)
