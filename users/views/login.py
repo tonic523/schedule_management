@@ -14,11 +14,10 @@ def login(request):
 
     if not serializer.is_valid(raise_exception=True):
         return Response({"message": "Request Body Error"}, status=status.HTTP_409_CONFLICT)
-    #'decode_token' : jwt_decode_handler(serializer.data['token'])
-
+    
     response = Response({
         'message' : 'SUCCESS',
-        'token': serializer.data['token'],
+        'access_token': serializer.data['token'],
     },
     headers={'access_token' : serializer.data['token']}, 
     content_type= 'application/json', 
