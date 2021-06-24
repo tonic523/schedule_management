@@ -19,7 +19,7 @@ def validate_login(func):
             )
 
         now = timezone.now().timestamp()
-        if now < access_token_payload['iat'] + timezone.timedelta(days=30).seconds:
+        if now > access_token_payload['iat'] + timezone.timedelta(days=30).seconds:
             try:
                 user = User.objects.get(employee_number=access_token_payload.get('employee_number', None))
                 request.user = user
