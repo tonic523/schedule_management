@@ -16,12 +16,13 @@ class MyPage(APIView):
         employee = request.user
         data = request.data
         work_in, work_out = get_today_commute(employee)
+        print(work_in, work_out)
         work_time_list = []
         total_work_time = None
 
         try:
-            first_day = format_str_date(data['first_day'])
-            last_day = format_str_date(data['last_day'])
+            first_day = format_str_date(data['firstDay'])
+            last_day = format_str_date(data['lastDay'])
         except KeyError:
             return Response({"message":"KEY_ERROR"}, status=400)
 

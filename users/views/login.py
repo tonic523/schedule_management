@@ -17,8 +17,8 @@ def login(request):
         'message' : 'SUCCESS',
         'access_token': serializer.data['token'],
     },
-    headers={'access_token' : serializer.data['token']}, 
-    content_type= 'application/json', 
+    headers={'Authorization' : serializer.data['token']}, 
+    content_type= 'application/json',
     status=status.HTTP_200_OK)
     
     return response

@@ -1,10 +1,5 @@
-from rest_framework.response import Response
-
-from permissions.models.roles import Role
-from permissions.models import roles_permissions
 from permissions.models.users_roles import UserRole
 from permissions.models.roles_permissions import RolePermission
-from rest_framework.permissions import BasePermission
 
 def get_roles(employee_number):
     results = {}
