@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from rest_framework import serializers
-from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
 
 from my_settings import SECRET
 from users.utils.roles import get_permissions
@@ -36,7 +35,6 @@ class UserLoginSerializer(serializers.Serializer):
         
         payload = {
             'employee_number':user.employee_number,
-            'name':user.name,
             'permissions':get_permissions(user.employee_number),
             'iat' :timezone.now().timestamp()
         }
@@ -46,9 +44,6 @@ class UserLoginSerializer(serializers.Serializer):
                 SECRET,
                 algorithm="HS256"
             ).decode('utf-8')
-
-        user.refresh_token = access_token
-        user.save()
 
         return {
         'employee_number': user.employee_number,

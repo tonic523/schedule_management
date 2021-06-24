@@ -52,7 +52,6 @@ class User(AbstractBaseUser):
     get_in_time         = models.TimeField(default='09:00')
     get_off_time        = models.TimeField(default='18:00')
     remaining_annual_leave = models.IntegerField(default=0, null=True)
-    refresh_token = models.CharField(max_length=300, default=None, null=True)
 
     class Meta:
         db_table = 'users'
