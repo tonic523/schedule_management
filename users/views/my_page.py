@@ -14,14 +14,14 @@ class MyPage(APIView):
     @validate_login
     def get(self, request):
         employee = request.user
-        first_day = request.GET.get("firstDay")
-        last_day = request.GET.get("lastDay")
+        monday = request.GET.get("monday")
+        sunday = request.GET.get("sunday")
         
         work_in, work_out = get_today_commute(employee)
         work_time_list = []
         total_work_time = None
 
-        schedules = employee.schedule_set.filter(created_at__date__range=[first_day, last_day])\
+        schedules = employee.schedule_set.filter(created_at__date__range=[monday, sunday])\
             .annotate(
                 work_time = F('updated_at__time') - F('created_at__time')
             )
