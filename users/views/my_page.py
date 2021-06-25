@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
-from schedules.models.schedules import Schedule
 from users.utils.token import validate_login
 from schedules.utils.date import format_str_date
 from schedules.utils.time import second_to_time, get_today_commute
+from users.utils.roles import get_roles
 
 class MyPage(APIView):
     permission_classes = []
@@ -16,7 +16,6 @@ class MyPage(APIView):
         employee = request.user
         data = request.data
         work_in, work_out = get_today_commute(employee)
-        print(work_in, work_out)
         work_time_list = []
         total_work_time = None
 
@@ -26,8 +25,7 @@ class MyPage(APIView):
         except KeyError:
             return Response({"message":"KEY_ERROR"}, status=400)
 
-        schedules = Schedule.objects.filter(created_at__date__range=[first_day, last_day])\
-            .select_related('user')\
+        schedules = employee.schedule_set.filter(created_at__date__range=[first_day, last_day])\
             .annotate(
                 work_time = F('updated_at__time') - F('created_at__time')
             )
@@ -39,11 +37,15 @@ class MyPage(APIView):
                 else:
                     work_time = second_to_time(schedule.work_time.seconds)
                 work_time_list.append(work_time)
-            total_work_time = second_to_time(
-                schedules.aggregate(Sum('work_time', distinct=True))['work_time__sum'].seconds)
+            try:
+                total_work_time = second_to_time(
+                    schedules.aggregate(Sum('work_time', distinct=True))['work_time__sum'].seconds)
+            except AttributeError:
+                pass
         
         data = {
             'name':employee.name,
+            'roles':get_roles(employee.employee_number),
             'work_in':work_in,
             'work_out':work_out,
             'work_time_list':work_time_list,
