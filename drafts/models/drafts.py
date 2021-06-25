@@ -1,5 +1,8 @@
 from django.db import models
 
+
+from b2tech_intern_20.settings import AUTH_USER_MODEL
+
 class Draft(models.Model):
     TYPE = (
         ('연차', 1),
@@ -8,7 +11,7 @@ class Draft(models.Model):
         ('경조', 0)
     )
 
-    drafter     = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    drafter     = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
     type        = models.CharField(max_length=64, choices=TYPE)
     description = models.TextField()
     draft_at    = models.DateField()
