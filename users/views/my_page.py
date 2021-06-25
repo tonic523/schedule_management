@@ -14,8 +14,8 @@ class MyPage(APIView):
     @validate_login
     def get(self, request):
         employee = request.user
-        monday = request.GET.get("monday")
-        sunday = request.GET.get("sunday")
+        monday = format_str_date(request.GET.get("monday"))
+        sunday = format_str_date(request.GET.get("sunday"))
         
         work_in, work_out = get_today_commute(employee)
         work_time_list = []
@@ -38,9 +38,10 @@ class MyPage(APIView):
                     schedules.aggregate(Sum('work_time', distinct=True))['work_time__sum'].seconds)
             except AttributeError:
                 pass
-        
+
         data = {
             'name':employee.name,
+            'employee_number':employee.employee_number,
             'roles':get_roles(employee.employee_number),
             'work_in':work_in,
             'work_out':work_out,
