@@ -1,22 +1,12 @@
 import jwt
 
 from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from rest_framework import serializers
 
 from my_settings import SECRET
 from users.utils.roles import get_permissions
-
-
-User = get_user_model()
-
-def jwt_payload_handler(user):
-    return {
-        'employee_number':user.employee_number,
-        'name':user.name
-    }
 
 class UserLoginSerializer(serializers.Serializer):
     employee_number = serializers.CharField(max_length=64)
