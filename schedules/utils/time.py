@@ -2,7 +2,6 @@ from schedules.models.schedules import Schedule
 from django.utils import timezone
 
 def second_to_time(second):
-    print(second)
     if second is None:
         return None
     else:

@@ -14,16 +14,12 @@ class MyPage(APIView):
     @validate_login
     def get(self, request):
         employee = request.user
-        data = request.data
+        first_day = request.GET.get("firstDay")
+        last_day = request.GET.get("lastDay")
+        
         work_in, work_out = get_today_commute(employee)
         work_time_list = []
         total_work_time = None
-
-        try:
-            first_day = format_str_date(data['firstDay'])
-            last_day = format_str_date(data['lastDay'])
-        except KeyError:
-            return Response({"message":"KEY_ERROR"}, status=400)
 
         schedules = employee.schedule_set.filter(created_at__date__range=[first_day, last_day])\
             .annotate(
