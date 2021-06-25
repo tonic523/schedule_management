@@ -19,7 +19,8 @@ def validate_login(func):
             )
 
         now = timezone.now().timestamp()
-
+        print(request.user)
+        print(type(request.user))
         if now < access_token_payload['iat'] + timezone.timedelta(days=30).total_seconds():
             try:
                 user = User.objects.get(employee_number=access_token_payload.get('employee_number', None))
@@ -28,6 +29,7 @@ def validate_login(func):
                 return Response({'message': '다시 로그인 해주세요'}, status=401)
         else:
             return Response({'message': '다시 로그인해주세요'}, status=401)
+        print(request.user)
         return func(self, request, *args, **kwargs)
     return wrapper
 

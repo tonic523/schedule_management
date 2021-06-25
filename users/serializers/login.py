@@ -38,4 +38,4 @@ class UserLoginSerializer(serializers.Serializer):
         return {
         'employee_number': user.employee_number,
         'token': access_token
-        }    
+        }
