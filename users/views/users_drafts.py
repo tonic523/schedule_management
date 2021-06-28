@@ -11,7 +11,6 @@ from permissions.models.users_roles import UserRole
 from users.utils.token import validate_login
 class UserDraft(APIView):
     permission_classes = []
-
     @validate_login
     def post(self, request, id):
         employee = request.user
