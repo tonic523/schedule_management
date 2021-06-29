@@ -8,12 +8,6 @@ from rest_framework import serializers
 from my_settings import SECRET
 from users.utils.roles import get_permissions
 
-def jwt_payload_handler(user):
-    return {
-        'employee_number':user.employee_number,
-        'name':user.name
-    }
-
 class UserLoginSerializer(serializers.Serializer):
     employee_number = serializers.CharField(max_length=64)
     password = serializers.CharField(max_length=128, write_only=True)
@@ -44,4 +38,4 @@ class UserLoginSerializer(serializers.Serializer):
         return {
         'employee_number': user.employee_number,
         'token': access_token
-        }    
+        }
