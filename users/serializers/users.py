@@ -17,6 +17,5 @@ class UserSerializer(serializers.ModelSerializer):
             'get_in_time',
             'get_off_time',
             'remaining_annual_leave',
-            'roles',
             'annual_leave'
             )

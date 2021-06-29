@@ -5,12 +5,13 @@ from rest_framework.views import APIView
 
 from users.serializers.users import UserSerializer
 from users.utils.roles import get_roles
-from users.utils.token import validate_login
+from users.utils.token import validate_login, is_admin
 from users.utils.encrypt_utils import decryption
 User = get_user_model()
 
 class UserEmployee(APIView):
     @validate_login
+    @is_admin
     def get(self, request, employee_number):
         user = request.user
         if user.employee_number != employee_number:
