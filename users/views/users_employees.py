@@ -11,12 +11,11 @@ User = get_user_model()
 
 class UserEmployee(APIView):
     @validate_login
-    @is_admin
     def get(self, request, employee_number):
         user = request.user
         if user.employee_number != employee_number:
             return Response("잘못된 접근입니다", status=status.HTTP_401_UNAUTHORIZED)
-        user_roles = get_roles(employee_number) #{직책:~~~,부서:~~~,관리자:관리자}
+        user_roles = get_roles(employee_number)
         
         if user_roles.get("관리자", None) == "관리자":
             employees = User.objects.filter()

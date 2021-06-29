@@ -28,8 +28,3 @@ class Draft(models.Model):
     class Meta:
         db_table = 'drafts'
         app_label = 'drafts'
-
-class DraftSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Draft
-        fields = ['']

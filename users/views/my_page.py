@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import timedelta
 
 from django.utils import timezone
 from django.db.models import F, Sum
@@ -8,7 +8,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from users.utils.token import validate_login
-from schedules.utils.date import format_str_date
 from schedules.utils.time import second_to_time, get_today_commute
 from users.utils.roles import get_roles
 
