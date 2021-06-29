@@ -6,7 +6,6 @@ from users.models import User
 from schedules.utils.time import get_today_commute
 
 @api_view(['GET'])
-@permission_classes([])
 def today_schedule(request):
     employee_number = request.GET.get('employee_number', None)
     try:

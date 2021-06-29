@@ -9,20 +9,17 @@ def second_to_time(second):
         miniute = str(miniute // 60).zfill(2)
         return f'{hour}:{miniute}'
 
-def work_status(time, status):
-    if time is None:
-        return None
-    elif status == '지각':
-        return status if time.days > 0 else None
-    elif status == '연장':
-        return status if time.seconds > 0 else None
-        
-
-def get_worktime(time):
-    if time is None:
+def work_status(work_time, due_time ,status):
+    if work_time is None:
         return None
     else:
-        return time.seconds if time.seconds > 0 else None
+        return status if work_time.time() > due_time else None
+
+def get_work_seconds(start_work, end_work):
+    if start_work < end_work.time():
+        return (end_work.time() - start_work).seconds
+    else:
+        return None
 
 def format_time(time):
     FORMAT = '%H:%M'

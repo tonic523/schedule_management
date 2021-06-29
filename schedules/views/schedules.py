@@ -5,29 +5,22 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from schedules.models.schedules import Schedule
-from schedules.utils.time import work_status, get_worktime, second_to_time, format_time
-from users.utils.roles import get_roles
+from schedules.utils.time import work_status, second_to_time, format_time
 from users.utils.token import is_admin, validate_login
-from schedules.utils.date import format_str_date
+from b2tech_intern_20.utils import format_list_to_dict
 
 class schedules(APIView):
-    permission_classes = []
-
     @validate_login
     @is_admin
     def get(self, request):
-        employee_number = request.GET.get('employee_number', None)
-        date = request.GET.get('date', None)
-
+        search = request.GET.get('search', None)
         query = Q()
-        if date:
-            query.add(Q(created_at__date=format_str_date(date)), query.AND)
-        
-        if employee_number:
-            query.add(Q(user__employee_number = employee_number), query.AND)
+        if search:
+            query.add(Q(user__employee_number__icontains = search), query.OR)
+            query.add(Q(user__name__icontains = search), query.OR)
 
         schedules = Schedule.objects.filter(query)\
-            .select_related('user')\
+            .prefetch_related('user__userrole_set__role')\
             .annotate(
                 date = F('created_at__date'),
                 attendance_time = F('created_at__time'),
@@ -47,11 +40,15 @@ class schedules(APIView):
                 'date':schedule.date,
                 'work_in' : format_time(schedule.attendance_time),
                 'work_out' : format_time(schedule.quitting_time),
-                'late_time' : work_status(schedule.late_time, "지각"),
-                'leaving_status' : work_status(schedule.leaving_time, "연장"),
-                'leaveing_time' : second_to_time(get_worktime(schedule.leaving_time)),
-                'work_time' :second_to_time(get_worktime(schedule.work_time)),
-                'roles' : get_roles(schedule.user.employee_number)
+                'late_status' : work_status(schedule.created_at,schedule.get_in_time,"지각"),
+                'leaving_status' : work_status(schedule.updated_at,schedule.get_off_time,"연장"),
+                'leaving_time' : second_to_time(schedule.leaving_time.seconds)
+                    if work_status(schedule.updated_at,schedule.get_off_time,"연장") == "연장" else None,
+                'work_time' :second_to_time(schedule.work_time.seconds) 
+                    if schedule.work_time else None,
+                'roles' : format_list_to_dict([
+                    {userrole.role.type: userrole.role.name}
+                    for userrole in schedule.user.userrole_set.all()])
             }for schedule in schedules]
 
         return Response({'schedules': results}, status=status.HTTP_200_OK)
