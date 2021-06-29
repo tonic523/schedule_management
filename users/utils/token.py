@@ -1,6 +1,8 @@
 import jwt
 
 from rest_framework.response import Response
+from rest_framework import status
+
 from django.utils import timezone
 
 from users.models import User
@@ -11,12 +13,15 @@ def validate_login(func):
     def wrapper(self, request, *args, **kwargs):
         access_token = request.headers.get("Authorization", None)
         if not access_token:
-                return Response({'message': '로그인 해주세요'}, status=401)
-        access_token_payload = jwt.decode(
-            access_token,
-            SECRET,
-            algorithms="HS256"
-            )
+                return Response({'message': '로그인 해주세요'}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            access_token_payload = jwt.decode(
+                access_token,
+                SECRET,
+                algorithms="HS256"
+                )
+        except jwt.exceptions.DecodeError:
+            return Response({'message':'인증된 유저가 아닙니다'}, status=status.HTTP_401_UNAUTHORIZED)
 
         now = timezone.now().timestamp()
 
