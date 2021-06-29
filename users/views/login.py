@@ -6,7 +6,6 @@ from rest_framework.permissions import AllowAny
 from users.serializers.login import UserLoginSerializer
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
 def login(request):
     serializer = UserLoginSerializer(data=request.data)
 

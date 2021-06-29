@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from users.utils.token import validate_login
 from users.utils.roles import get_roles
 from users.serializers.users import UserSerializer
+
 class Me(APIView):
-    permission_classes = []
     @validate_login
     def get(self, request):
         user = request.user

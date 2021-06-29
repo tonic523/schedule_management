@@ -13,7 +13,6 @@ from schedules.utils.time import second_to_time, get_today_commute
 from users.utils.roles import get_roles
 
 class MyPage(APIView):
-    permission_classes = []
     @validate_login
     def get(self, request, employee_number):
         employee = request.user

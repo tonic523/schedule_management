@@ -155,12 +155,12 @@ CORS_ALLOW_HEADERS = (
 
 ### DRF
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
-        'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
-        'rest_framework.permissions.AllowAny', # 누구나 접근 가능
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
+    #     'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
+    #     'rest_framework.permissions.AllowAny', # 누구나 접근 가능
 
-    ),
+    # ),
 
     'DEFAULT_RENDERER_CLASSES': (
         # 자동으로 json으로 바꿔줌

@@ -10,9 +10,6 @@ from users.models import User
 from schedules.models.schedules import Schedule
 
 class UserSchedule(APIView):
-
-    permission_classes = [AllowAny]
-
     def post(self, request, employee_number):
         try:
             employee = User.objects.get(employee_number = employee_number)

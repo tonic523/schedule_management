@@ -10,7 +10,6 @@ from users.utils.encrypt_utils import decryption
 User = get_user_model()
 
 class UserEmployee(APIView):
-    permission_classes = []
     @validate_login
     def get(self, request, employee_number):
         user = request.user

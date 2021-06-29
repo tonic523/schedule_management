@@ -14,7 +14,6 @@ from drafts.serializers.drafts import DraftSerializer
 from users.utils.token import validate_login
 
 class UserDraft(APIView):
-    permission_classes = []
     @validate_login
     def post(self, request, employee_number):
         user = request.user
